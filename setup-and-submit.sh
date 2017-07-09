@@ -28,6 +28,9 @@ popd
 # which includes all our dependencies.
 export PYSPARK_PYTHON="venv/bin/python"
 
+which spark-submit
+echo $PATH
+
 spark-submit \
     --name "Sample Spark Application" \
     --master yarn \
