@@ -9,6 +9,8 @@ if __name__ == '__main__':
         # Use `spark-submit --name` instead.
         # .appName('Sample Spark Application')
         .getOrCreate())
+    spark.sparkContext.setLogLevel('WARN')
+
     names = (
         spark.createDataFrame(
             data=[
