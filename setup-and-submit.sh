@@ -24,6 +24,8 @@ pushd application/
 zip -rq ../application.zip *
 popd
 
+# We want YARN to use the Python from our virtual environment,
+# which includes all our dependencies.
 export PYSPARK_PYTHON="venv/bin/python"
 
 spark-submit \
