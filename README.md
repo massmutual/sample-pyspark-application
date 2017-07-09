@@ -32,7 +32,7 @@ spark-submit hello.py
 
 ## Running on YARN
 
-To run this project on YARN, simply setup some environment variables
+To run this project on YARN, simply set some environment variables
 and you're good to go.
 
 ```sh
