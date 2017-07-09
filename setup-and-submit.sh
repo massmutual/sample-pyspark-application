@@ -33,4 +33,4 @@ spark-submit \
     --conf "spark.yarn.appMasterEnv.SPARK_HOME=$SPARK_HOME" \
     --conf "spark.yarn.appMasterEnv.PYSPARK_PYTHON=$PYSPARK_PYTHON" \
     --archives "venv.zip#venv,application.zip#application" \
-    entrypoint.sh
+    entrypoint.py
