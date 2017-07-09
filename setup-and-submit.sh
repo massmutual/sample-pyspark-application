@@ -1,4 +1,5 @@
 set -e
+set -x
 
 # Set $PYTHON to the Python executable you want to create
 # your virtual environment with. It could just be something
@@ -31,5 +32,5 @@ spark-submit \
     --deploy-mode client \
     --conf "spark.yarn.appMasterEnv.SPARK_HOME=$SPARK_HOME" \
     --conf "spark.yarn.appMasterEnv.PYSPARK_PYTHON=$PYSPARK_PYTHON" \
-    --archives "venv.zip#venv,splinkr.zip#splinkr,tests.zip#tests" \
+    --archives "venv.zip#venv,application.zip#application" \
     entrypoint.sh
