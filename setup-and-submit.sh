@@ -17,6 +17,9 @@ pip install -U pip
 pip install -r requirements.pip
 deactivate
 
+# Here we package up an isolated environment that we'll ship to YARN.
+# The awkward zip invocation is required to setup the correct relative
+# paths for the contents of each package.
 pushd venv/
 zip -rq ../venv.zip *
 popd
@@ -28,6 +31,11 @@ popd
 # which includes all our dependencies.
 export PYSPARK_PYTHON="venv/bin/python"
 
+# The --archives option places our packaged up environment on each
+# YARN worker's lookup path with an alias that we define. The pattern
+# is `local-file-name#aliased-file-name`. So when we set
+# PYSPARK_PYTHON to `venv/bin/python`, `venv/` here references the
+# aliased zip file we're sending to YARN.
 spark-submit \
     --name "Sample Spark Application" \
     --master yarn \
