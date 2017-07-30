@@ -44,6 +44,7 @@ spark-submit \
     --conf "spark.yarn.appMasterEnv.SPARK_HOME=$SPARK_HOME" \
     --conf "spark.yarn.appMasterEnv.PYSPARK_PYTHON=$PYSPARK_PYTHON" \
     --archives "venv.zip#venv" \
+    --py-files "application.zip" \
     hello.py
 
 # Cluster mode
