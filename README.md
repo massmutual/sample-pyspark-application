@@ -15,6 +15,16 @@ several other PySpark users on [SPARK-13587].
 [@nchammas]: https://github.com/nchammas/
 [SPARK-13587]: https://issues.apache.org/jira/browse/SPARK-13587
 
+## Running Tests
+
+```sh
+spark-submit run_tests.py
+```
+
+```sh
+PYTHONPATH=./ pytest
+```
+
 ## Running Locally
 
 Although the point of this project is to demonstrate how to run
