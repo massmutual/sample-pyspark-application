@@ -1,0 +1,31 @@
+language: python
+python:
+  - 3.5
+# sudo is required otherwise Spark fails with timeout errors. Seems to
+# be an issue with networking while on Travis' container-based
+# infrastructure.
+sudo: required
+cache:
+  - pip: true
+before_install:
+  - curl -L -o spark.tgz https://s3.amazonaws.com/spark-related-packages/spark-2.2.0-bin-hadoop2.7.tgz
+  - export SPARK_HOME=./local/spark
+  - mkdir -p "$SPARK_HOME"
+  - tar -xf spark.tgz -C "$SPARK_HOME" --strip-components=1
+  - export PATH="$SPARK_HOME/bin:$PATH"
+  - export SPARK_LOCAL_IP="127.0.0.1"
+  # These lines here just suppress a lot of noisy log messages from Spark.
+  - echo "log4j.logger.org.apache.spark=WARN" > "$SPARK_HOME"/conf/log4j.properties
+  - echo "log4j.logger.org.apache.hadoop.util.NativeCodeLoader=ERROR" >> "$SPARK_HOME"/conf/log4j.properties
+  - echo "log4j.logger.org.apache.parquet=ERROR" >> "$SPARK_HOME"/conf/log4j.properties
+install:
+  - pip install -U pip
+  - pip install -r requirements.pip
+  - pip install -r requirements-dev.pip
+script:
+  # If you didn't have flake8 integrated into your test suite, you can
+  # just invoke it alone here.
+  # - flake8
+  - spark-submit run_tests.py
+notifications:
+  email: false
