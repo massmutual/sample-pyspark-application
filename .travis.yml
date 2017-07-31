@@ -14,6 +14,7 @@ before_install:
   - tar -xf spark.tgz -C "$SPARK_HOME" --strip-components=1
   - export PATH="$SPARK_HOME/bin:$PATH"
   - export SPARK_LOCAL_IP="127.0.0.1"
+  # These lines here just suppress a lot of noisy log messages from Spark.
   - echo "log4j.logger.org.apache.spark=WARN" > "$SPARK_HOME"/conf/log4j.properties
   - echo "log4j.logger.org.apache.hadoop.util.NativeCodeLoader=ERROR" >> "$SPARK_HOME"/conf/log4j.properties
   - echo "log4j.logger.org.apache.parquet=ERROR" >> "$SPARK_HOME"/conf/log4j.properties

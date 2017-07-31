@@ -1,29 +1,42 @@
 # Sample PySpark-on-YARN Application
 
-This is a sample PySpark application which demonstrates how to 
-dynamically package your dependencies and isolate your 
-application from any other jobs running on a YARN cluster. With 
-this pattern you don't need to rely on a shared virtual 
+This is a sample PySpark application which demonstrates how to
+dynamically package your dependencies and isolate your
+application from any other jobs running on a YARN cluster.
+It builds on the discussion [@nchammas] had with several other
+PySpark users on [SPARK-13587].
+
+With this pattern you don't need to rely on a shared virtual
 environment being deployed to each node of the cluster, which
-becomes a point of contention when different applications that 
-have incompatible dependencies try to share that same virtual 
+becomes a point of contention when different applications that
+have incompatible dependencies try to share that same virtual
 environment.
 
-This example builds on the discussion [@nchammas] had with 
-several other PySpark users on [SPARK-13587].
+This sample application also demonstrates how to structure and run
+your tests, both locally as well as on Travis CI.
 
 [@nchammas]: https://github.com/nchammas/
 [SPARK-13587]: https://issues.apache.org/jira/browse/SPARK-13587
 
 ## Running Tests
 
+Run this project's tests as follows:
+
 ```sh
 spark-submit run_tests.py
 ```
 
+Normally, with pytest, you'd do this to run your tests:
+
 ```sh
 PYTHONPATH=./ pytest
 ```
+
+However, this won't work here since we need pytest to run within
+PySpark. Spark 2.2.0 added [support for pip installation], which may
+simplify this pattern. However, we won't use it here.
+
+[support for pip installation]: http://spark.apache.org/releases/spark-release-2-2-0.html
 
 ## Running Locally
 

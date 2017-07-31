@@ -32,6 +32,8 @@ zip -rq application.zip application/
 # which includes all our dependencies.
 export PYSPARK_PYTHON="venv/bin/python"
 
+# YARN Client Mode Example
+# ------------------------
 # The --archives option places our packaged up environment on each
 # YARN worker's lookup path with an alias that we define. The pattern
 # is `local-file-name#aliased-file-name`. So when we set
@@ -47,9 +49,16 @@ spark-submit \
     --py-files "application.zip" \
     hello.py
 
-# Cluster mode
-#   - need to replicate env variables + use --files for local files
-#   - be sure not to name driver script same as folder
+# YARN Cluster Mode Example
+# -------------------------
+# Two additional tips when running in cluster mode:
+#  1. Be sure not to name your driver script (in this example, hello.py)
+#     the same name as your application folder. This confuses Python when it
+#     tries to import your module (e.g. `import application`).
+#  2. Since your driver is running on the cluster, you'll need to
+#     replicate any environment variables you need using
+#     `--conf "spark.yarn.appMasterEnv..."` and any local files you
+#     depend on using `--files`.
 spark-submit \
     --name "Sample Spark Application" \
     --master yarn \
