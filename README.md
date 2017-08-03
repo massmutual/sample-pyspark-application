@@ -1,22 +1,52 @@
 # Sample PySpark-on-YARN Application
 
-This is a sample PySpark application which demonstrates how to
-dynamically package your dependencies and isolate your
+This sample PySpark application demonstrates how to
+dynamically package your Python dependencies and isolate your
 application from any other jobs running on a YARN cluster.
 It builds on the discussion [@nchammas] had with several other
 PySpark users on [SPARK-13587].
 
-With this pattern you don't need to rely on a shared virtual
-environment being deployed to each node of the cluster, which
-becomes a point of contention when different applications that
-have incompatible dependencies try to share that same virtual
-environment.
-
 This sample application also demonstrates how to structure and run
-your tests, both locally as well as on Travis CI.
+your Spark tests, both locally and on Travis CI.
 
 [@nchammas]: https://github.com/nchammas/
 [SPARK-13587]: https://issues.apache.org/jira/browse/SPARK-13587
+
+## Approach
+
+The gist of the approach is to use `spark-submit`'s `--archives`
+option to ship a complete Python virtual environment (Conda works
+too!) to all your YARN executors, isolated to a specific application.
+This lets you use any version of Python and any
+combination of Python libraries with your application, without
+requiring them to be pre-installed on your cluster. More
+importantly, this lets PySpark applications with conflicting
+dependencies run side-by-side on the same YARN cluster without
+issue.
+
+## Caveats
+
+The main downside of this approach is that the setup and
+distribution of the virtual environment adds many seconds -- or even
+minutes, depending on the size of the environment -- to the job's
+initialization time. So depending on your job latency requirements
+and the complexity of your environment, this approach may not be
+worth it to you.
+
+This approach also does not cover any non-Python dependencies your
+PySpark application may have unless a) they are Java or Scala
+dependencies, which `spark-submit` already supports via `--packages`;
+or b) they are Conda or [`manylinux`] packages, which your
+Python package manager puts in your virtual environment for you.
+
+A typical example of a dependency this approach won't handle is a 
+standalone C library that you need to install using your Linux 
+distribution's package manager.
+If you want to isolate non-Python dependencies like this to
+your application, you need to look into deployment options
+that somehow leverage Linux containers.
+
+[`manylinux`]: https://www.python.org/dev/peps/pep-0513/
 
 ## Running Tests
 
