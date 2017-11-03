@@ -4,7 +4,8 @@ This sample PySpark application demonstrates how to
 dynamically package your Python dependencies and isolate your
 application from any other jobs running on a YARN cluster.
 It builds on the discussion [@nchammas] had with several other
-PySpark users on [SPARK-13587].
+PySpark users on [SPARK-13587]. The key pattern is captured in
+`setup-and-submit.sh`.
 
 This sample application also demonstrates how to structure and run
 your Spark tests, both locally and on Travis CI.
@@ -96,3 +97,6 @@ export PATH="$SPARK_HOME/bin:$PATH"
 
 ./setup-and-submit.sh
 ```
+
+The key pattern for packaging your PySpark application is captured in
+`setup-and-submit.sh`.
